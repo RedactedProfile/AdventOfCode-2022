@@ -80,13 +80,42 @@ fclose($handle);
 
 $expedition->sortByCalories();
 
-$elf = $expedition->getTopCalorieCarrier();
+$topElves = array_slice($expedition->elves, 0, 3);
+
+$totalCalories = 0;
+foreach($topElves as $elf) {
+    $totalCalories += $elf->getCalories();
+}
 
 $end = microtime(true) - $start;
 
 ?>
 
-We should ask Elf #<?=$elf->id?> who currently has the most calories to spare at <?=$elf->getCalories()?><br />
+<h3>Part 1:</h3>
+We should ask Elf #<?=$topElves[0]->id?> who currently has the most calories to spare at <?=$topElves[0]->getCalories()?><br />
+<br />
+<h3>Part 2:</h3>
+Top 3 elves:
+<table>
+    <thead>
+    <tr>
+        <th>Elf</th>
+        <th>Calories</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($topElves as $elf): ?>
+    <tr>
+        <td><?=$elf->id?></td>
+        <td><?=$elf->getCalories()?></td>
+    </tr>
+    <?php endforeach; ?>
+    <tr>
+        <td></td>
+        <td><?=$totalCalories?></td>
+    </tr>
+    </tbody>
+</table>
 <br />
 
 Time Took: <?=$end?>ms
